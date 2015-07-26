@@ -1,0 +1,18 @@
+#!/bin/bash -ex
+install()
+{
+    apt-get update
+    DEBIAN_FRONTEND=noninteractive apt-get -y \
+        -o DPkg::Options::=--force-confdef \
+        -o DPkg::Options::=--force-confold \
+        install $@
+}
+
+install sudo
+
+# dis-allow root login via ssh since this will be facing the public internet
+CONF=/etc/ssh/sshd_config
+sed -i "s|PermitRootLogin.*|PermitRootLogin no|" $CONF
+
+# Add sshadmin user who can login via ssh and is part of sudo group
+useradd -c "Admin User via SSH" -g users -G sudo -mN -s /bin/bash sshadmin
