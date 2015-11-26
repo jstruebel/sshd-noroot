@@ -1,8 +1,0 @@
-#!/bin/bash -e
-# set sshadmin password
-
-. /etc/default/inithooks
-
-[ -e $INITHOOKS_CONF ] && . $INITHOOKS_CONF
-$INITHOOKS_PATH/bin/setpass.py sshadmin --pass="$ROOT_PASS"
-

@@ -8,11 +8,6 @@ install()
         install $@
 }
 
-install sudo
-
-# dis-allow root login via ssh since this will be facing the public internet
-CONF=/etc/ssh/sshd_config
-sed -i "s|PermitRootLogin.*|PermitRootLogin no|" $CONF
-
-# Add sshadmin user who can login via ssh and is part of sudo group
-useradd -c "Admin User via SSH" -g users -G sudo -mN -s /bin/bash sshadmin
+# Enable SUDOADMIN option in default inithooks
+CONF=/etc/default/inithooks
+sed -i "s|SUDOADMIN.*|SUDOADMIN=true|" $CONF
